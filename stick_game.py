@@ -1,24 +1,35 @@
+import time
+
 sticks = 10
 player = 1
 
-while True:
-    print(f'\nSticks left: {sticks}')
+def display_sticks(count):
+    print("Sticks: " + "| " * count)
+    print(f"({count} remaining)\n")
+
+print("🎮 Welcome to the Stick Game!")
+print("Rule: Take 1 to 3 sticks. The player who takes the last stick loses.\n")
+time.sleep(1)
+
+while sticks > 0:
+    display_sticks(sticks)
     try:
-        take = int(input(f'Player {player}, how many sticks do you take?(1-3)'))
+        taken = int(input(f"Player {player}, how many sticks will you take? (1-3): "))
+        if taken < 1 or taken > 3 or taken > sticks:
+            print("❌ Invalid move! Try again.\n")
+            continue
     except ValueError:
-        print(f'You have to enter the number 1, 2 or 3')
+        print("❌ Please enter a valid number!\n")
         continue
-    if take not in (1,2,3):
-        print(f'You can only take 1, 2 or 3 sticks')
-        continue
-    if take > sticks:
-        print(f"You can't take that much - there are fewer sticks left")
-        continue
-    sticks -= take
+
+    sticks -= taken
+    time.sleep(0.5)
 
     if sticks == 0:
-        print(f'Player {player} took the last stick and lost.')
-        print(f'The player {2 if player == 1 else 1} won !')
+        print(f"\n💥 Player {player} took the last stick!")
+        print(f"🏆 Player {3 - player} wins! 🎉")
         break
 
     player = 2 if player == 1 else 1
+    print("-" * 30)
+    time.sleep(0.5)
